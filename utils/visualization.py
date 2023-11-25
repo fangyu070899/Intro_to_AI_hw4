@@ -6,8 +6,10 @@ class Data:
     def __init__(self) -> None:
         # 所有 column 的標題
         cols = ['profile pic', 'nums/length username', 'fullname words', 'nums/length fullname', 'name==username', 'description length', 'external URL', 'private', '#posts', '#followers', '#follows', 'fake']
+        
         # 讀取 training data     
         self.df_train = pd.read_csv("new_data/train.csv", usecols=cols)
+
         # 將讀取進來的資料拆成真帳號與假帳號兩個 dataset -> 為了分別作圖
         self.df_notfake = self.df_train[self.df_train['fake']==0]
         self.df_fake = self.df_train[self.df_train['fake']==1]
