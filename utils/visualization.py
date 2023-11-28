@@ -1,3 +1,4 @@
+from sklearn.model_selection import train_test_split
 import matplotlib.pyplot as plt
 import pandas as pd
 
@@ -9,10 +10,20 @@ class Data:
         
         # 讀取 training data     
         self.df_train = pd.read_csv("new_data/train.csv", usecols=cols)
+        # 讀取 validating data     
+        self.df_train = pd.read_csv("new_data/test.csv", usecols=cols)
 
-        # 將讀取進來的資料拆成真帳號與假帳號兩個 dataset -> 為了分別作圖
-        self.df_notfake = self.df_train[self.df_train['fake']==0]
-        self.df_fake = self.df_train[self.df_train['fake']==1]
+        # # 將讀取進來的資料拆成真帳號與假帳號兩個 dataset -> 為了分別作圖
+        # self.df_notfake = self.df_train[self.df_train['fake']==0]
+        # self.df_fake = self.df_train[self.df_train['fake']==1]
+
+        # # 先切 training dataset
+        self.parse_data(self.df_train)
+
+    def parse_data(self, df):
+        # 將數據切割成訓練集和測試集，test_size=0.2 表示測試集占總數據的 20%
+        self.X_train, self.X_validate, self.y_train, self.y_validate = train_test_split( df.drop('fake', axis=1), df['fake'], test_size=0.2, random_state=42)
+
 
     # 畫 histogram
     def histogram(self,col):
