@@ -1,5 +1,6 @@
 import pandas as pd
 import numpy as np
+from graphviz import Digraph
 
 class DecisionTree:
     """
@@ -122,5 +123,28 @@ class DecisionTree:
     """
     def predict(self, X):
         return np.array([self.predict_instance(X.iloc[i], self.tree) for i in range(len(X))])
+    
+    """
+    計算 accuracy
+    """
+    def accuracy(self, predictions, answers):
+        answers_list = answers.to_numpy()
+        num=0
+        correct = 0
+        for i in range(len(predictions)):
+            num+=1
+            if answers_list[i] == predictions[i]:
+                correct+=1
+        return correct/num
 
-   
+    """
+    將 tree 視覺化
+    """
+    def visualize_tree(self, tree, parent_name, graph):
+        if 'label' in tree:
+            graph.node(str(parent_name), f'Label: {tree["label"]}', shape='circle', color='lightblue2', style='filled')
+        else:
+            graph.node(str(parent_name), f'Attribute: {tree["attribute"]}', shape='box')
+            for value, subtree in tree['sub_trees'].items():
+                self.visualize_tree(subtree, f'{parent_name}_{value}', graph)
+                graph.edge(str(parent_name), f'{parent_name}_{value}', label=str(value))
