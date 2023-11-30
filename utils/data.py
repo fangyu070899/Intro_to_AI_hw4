@@ -3,7 +3,6 @@ import matplotlib.pyplot as plt
 import pandas as pd
 import numpy as np
 
-
 class Data:
     def __init__(self) -> None:
         # 所有 column 的標題
@@ -83,7 +82,6 @@ class Data:
 
         print("Done")
         return df_copy
-
 
     # 畫 histogram
     def histogram(self,col):
